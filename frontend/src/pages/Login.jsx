@@ -1,48 +1,60 @@
+import { redirect } from "react-router-dom";
+// //import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import { apiClient } from "../api";
+// import { GROUPS } from "../constans";
 
-async function loginUser(credentials) {
-  return fetch("http://localhost:8080/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(credentials),
-  }).then((data) => data.json());
-}
+const userIcon = require("../styles/icons/user.png");
+const passwordIcon = require("../styles/icons/password.png");
 
 export default function Login({ setToken }) {
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
+  /// const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const token = await loginUser({
+    const { token, group } = await apiClient.loginUser({
       username,
       password,
     });
     setToken(token);
+    //return navigate("/lobby");
+    //return redirect("/lobby");
+    // if (group === GROUPS.USER) return redirect("/code");
+    // if (group === GROUPS.ADMIN) return redirect("/lobby");
   };
 
   return (
     <div className="login-wrapper">
-      <h1>Log In</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          <p>Username</p>
-          <input type="text" onChange={(e) => setUserName(e.target.value)} />
-        </label>
-        <label>
-          <p>Password</p>
+      <form className="login-form" onSubmit={handleSubmit}>
+        <div className="form-field">
+          <label className="icon">
+            <img src={userIcon} />
+          </label>
           <input
+            className="form-input"
+            placeholder="Username"
+            type="text"
+            onChange={(e) => setUserName(e.target.value)}
+          />
+        </div>
+        <div className="form-field">
+          <label className="icon">
+            <img src={passwordIcon} />
+          </label>
+          <input
+            className="form-input"
+            placeholder="Password"
             type="password"
             onChange={(e) => setPassword(e.target.value)}
           />
-        </label>
-        <div>
-          <button type="submit">Submit</button>
         </div>
+        <button className="signin-btn" type="submit">
+          Sign In
+        </button>
       </form>
     </div>
   );

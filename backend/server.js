@@ -17,6 +17,4 @@ app.use("/login", (req, res) => {
 
 // Generate uuid -> store in the db on users table and return uuid -> POST /chat {user_id:}
 
-app.listen(8080, () =>
-  console.log("API is running on http://localhost:8080/login")
-);
+app.listen(8080, () => console.log("API is running on http://localhost:8080"));
