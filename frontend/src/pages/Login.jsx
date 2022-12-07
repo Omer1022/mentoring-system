@@ -1,30 +1,32 @@
-import { redirect } from "react-router-dom";
-// //import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { apiClient } from "../api";
-// import { GROUPS } from "../constans";
+import { GROUPS } from "../constants";
 
 const userIcon = require("../styles/icons/user.png");
 const passwordIcon = require("../styles/icons/password.png");
 
-export default function Login({ setToken }) {
+const Login = () => {
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
-  /// const navigate = useNavigate();
+  const navigate = useNavigate();
 
+  const saveToken = (userToken) => {
+    localStorage.setItem("token", JSON.stringify(userToken));
+  };
+
+  // Login submit on click
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const { token, group } = await apiClient.loginUser({
-      username,
-      password,
+      username: username,
+      password: password,
     });
-    setToken(token);
-    //return navigate("/lobby");
-    //return redirect("/lobby");
-    // if (group === GROUPS.USER) return redirect("/code");
-    // if (group === GROUPS.ADMIN) return redirect("/lobby");
+    saveToken(token);
+    if (group === GROUPS.USER) navigate("/code");
+    if (group === GROUPS.ADMIN) navigate("/lobby");
   };
 
   return (
@@ -58,7 +60,9 @@ export default function Login({ setToken }) {
       </form>
     </div>
   );
-}
+};
+
+export default Login;
 
 Login.propTypes = {
   setToken: PropTypes.func.isRequired,
