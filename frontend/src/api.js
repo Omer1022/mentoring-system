@@ -1,12 +1,6 @@
 import axios from "axios";
 
-const serverBaseUrl = "http://localhost:8080"; // Get from .env file
-
-/*
-class Student { 
-  name
-}
-*/
+const serverBaseUrl = "http://localhost:8080";
 
 class ApiClient {
   async getAllStudents() {
@@ -17,31 +11,29 @@ class ApiClient {
         },
       })
       .then((res) => {
-        return res.data;
+        return res.data.students;
       });
   }
 
-  async saveCodeSession(studentName, sessionUrl, codeBlockName) {
+  async saveCodeSession(studentName, codeBlockName) {
     return axios
       .post(serverBaseUrl + "/saveCodeSession", {
         headers: {
           "Content-Type": "application/json",
         },
-        data: {},
+        data: {
+          studentName: studentName,
+          codeBlockName: codeBlockName,
+        },
       })
       .then((res) => {
         return res.data;
       });
   }
 
-  async loginUser(credentials) {
+  async loginUser(username, password) {
     return axios
-      .post(serverBaseUrl + "/login", {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(credentials),
-      })
+      .post(serverBaseUrl + "/login", { username, password })
       .then((res) => {
         return res.data;
       });

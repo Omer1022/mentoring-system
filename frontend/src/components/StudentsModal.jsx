@@ -1,15 +1,22 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { apiClient } from "../api";
+import { useNavigate } from "react-router-dom";
 
-const StudentsModal = ({ setShowModal, showModal, codeBlockName }) => {
+const StudentsModal = ({ setShowModal, showModal }) => {
   const [students, setStudents] = useState([]);
+  const navigate = useNavigate();
+
+  const navigateToCode = () => {
+    navigate("/code");
+  };
 
   useEffect(() => {
-    // Bring students from db
-    // const students = await apiClient.getAllStudents();
-    const students = ["Omer Dahan", "Sagi Dahan", "Dor Dahan"];
-    setStudents(students);
+    const foo = async () => {
+      const students = await apiClient.getAllStudents();
+      setStudents(students);
+    };
+    foo();
   }, []);
 
   const onCloseClick = () => {
@@ -23,7 +30,11 @@ const StudentsModal = ({ setShowModal, showModal, codeBlockName }) => {
           <Close onClick={() => onCloseClick()}>X</Close>
         </CloseBackground>
         {students.map((student, index) => {
-          return <li>{student}</li>;
+          return (
+            <li className="student-list" onClick={navigateToCode} key={index}>
+              {student}
+            </li>
+          );
         })}
       </DishModalContainer>
     </Modal>
@@ -76,10 +87,10 @@ const DishModalContainer = styled.div`
   overflow-y: auto;
   max-width: 610px;
   @media (min-width: 600px) {
-    width: 42%;
-    height: 90%;
+    width: 20%;
+    height: 40%;
     background: #3b4148;
-    min-width: 330px;
+    min-width: 300px;
     color: white;
   }
 `;

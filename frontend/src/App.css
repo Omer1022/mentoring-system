@@ -21,6 +21,10 @@ h1 {
   text-align: center;
 }
 
+li {
+  list-style-type: none;
+}
+
 .login-wrapper {
   height: 100vh;
   display: flex;
@@ -87,18 +91,34 @@ h1 {
   display: inline-block;
 }
 
+.lobby-header {
+  font-size: 2rem;
+}
+
 .dropdown-content {
   color: #eee;
   display: none;
   position: absolute;
   background-color: #3b4148;
-  min-width: 160px;
+  min-width: 285px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   padding: 12px 16px;
   z-index: 1;
   cursor: pointer;
+  top: 4.5rem;
 }
 
 .dropdown:hover .dropdown-content {
   display: block;
+}
+
+.dropdown-content li {
+  font-size: 1.5rem;
+  margin: 1rem;
+}
+
+.student-list {
+  font-size: 2rem;
+  margin: 0.3rem;
+  cursor: pointer;
 }
